@@ -1,0 +1,15 @@
+menu "Homework Selection"
+
+choice HOMEWORK_TASK
+    prompt "Select Active Homework"
+    default HW_02_3_SUPERLOOP
+
+config HW_01_BLINK
+    bool "HW 01: Simple Blink"
+
+config HW_02_3_SUPERLOOP
+    bool "HW 02_3: Superloop 3 LEDs"
+
+endchoice
+
+endmenu

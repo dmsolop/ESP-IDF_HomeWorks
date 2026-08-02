@@ -1,0 +1,15 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.extensionActivationMode": "always",
+  "idf.espIdfPathMac": "/Users/dmsolop/.espressif/v6.0.2/esp-idf",
+  "idf.toolsPathMac": "/Users/dmsolop/.espressif",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-bridge.cfg"
+  ],
+  "idf.port": "/dev/tty.usbmodem5C390137121",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32s3"
+  },
+  "idf.flashType": "UART",
+  "idf.currentSetup": "/Users/dmsolop/.espressif/v6.0.2/esp-idf"
+}
