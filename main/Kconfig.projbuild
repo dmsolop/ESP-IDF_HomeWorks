@@ -4,11 +4,20 @@ choice HOMEWORK_TASK
     prompt "Select Active Homework"
     default HW_02_3_SUPERLOOP
 
-config HW_01_BLINK
-    bool "HW 01: Simple Blink"
-
 config HW_02_3_SUPERLOOP
     bool "HW 02_3: Superloop 3 LEDs"
+
+config HW_02_4_1_HW_INTERRUPTS
+    bool "HW 02_4_1: HW Interrupts"
+
+config HW_02_4_2_HW_INTERRUPTS
+    bool "HW 02_4_2: HW_Interrupts"
+
+config HW_02_4_3_HW_INTERRUPTS
+    bool "HW 02_4_3: HW_Interrupts"
+
+config HW_02_4_4_HW_INTERRUPTS
+    bool "HW 02_4_4: HW_Interrupts"
 
 endchoice
 
