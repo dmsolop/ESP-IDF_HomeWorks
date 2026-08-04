@@ -13,7 +13,7 @@ static void IRAM_ATTR button_isr_handler_1(void *arg)
     press_count++;
 }
 
-void hw02_4_1_hw_interrupts_run(void)
+void hw02_4_1_hw_run(void)
 {
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << BUTTON_PIN),
