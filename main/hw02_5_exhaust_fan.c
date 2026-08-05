@@ -1,4 +1,5 @@
 #include "hw02_5_exhaust_fan.h"
+#include "sdkconfig.h"
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -10,7 +11,7 @@
 #define TAG "EXHAUST_FAN"
 
 #ifdef CONFIG_EXHAUST_FAN_DEBUG_MODE
-#define TIME_MULTIPLIER 1
+#define TIME_MULTIPLIER 0.1
 #else
 #define TIME_MULTIPLIER 60
 #endif
@@ -36,7 +37,6 @@ static bool IRAM_ATTR timer_alarm_callback(gptimer_handle_t timer, const gptimer
 // Головна фонова таска керування вентилятором
 void exhaust_fan_task(void *pvParameters)
 {
-    // 1. Налаштування GPIO для реле
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << FAN_GPIO),
         .mode = GPIO_MODE_OUTPUT,
@@ -45,7 +45,7 @@ void exhaust_fan_task(void *pvParameters)
         .intr_type = GPIO_INTR_DISABLE};
     gpio_config(&io_conf);
 
-    // 2. Налаштування апаратного таймера (GPTimer: 1 мікросекунда на 1 тік)
+    // Налаштування апаратного таймера (GPTimer: 1 мікросекунда на 1 тік)
     gptimer_config_t timer_config = {
         .clk_src = GPTIMER_CLK_SRC_DEFAULT,
         .direction = GPTIMER_COUNT_UP,
@@ -63,12 +63,12 @@ void exhaust_fan_task(void *pvParameters)
     uint64_t work_ticks = (uint64_t)CONFIG_EXHAUST_FAN_WORK_TIME_MIN * TIME_MULTIPLIER * 1000000ULL;
     uint64_t pause_ticks = (uint64_t)CONFIG_EXHAUST_FAN_PAUSE_TIME_MIN * TIME_MULTIPLIER * 1000000ULL;
 
-    // 3. Запуск початкового стану (Робота)
+    // Запуск початкового стану (Робота)
     current_state = FAN_STATE_WORKING;
-    gpio_set_level(FAN_GPIO, 1); // Увімкнути реле/вентилятор
+    gpio_set_level(FAN_GPIO, 1); // Увімкнути вентилятор
 
     gptimer_alarm_config_t alarm_config = {
-        .alarm_value = work_ticks,
+        .alarm_count = work_ticks,
         .reload_count = 0,
         .flags.auto_reload_on_alarm = false,
     };
@@ -76,20 +76,21 @@ void exhaust_fan_task(void *pvParameters)
     ESP_ERROR_CHECK(gptimer_start(gptimer));
 
     ESP_LOGI(TAG, "System started. State: WORKING. Duration: %d units", CONFIG_EXHAUST_FAN_WORK_TIME_MIN);
+    ESP_LOGI(TAG, "DEBUG_MODE active? TIME_MULTIPLIER = %d", TIME_MULTIPLIER);
+    ESP_LOGI(TAG, "Work ticks = %llu us (%llu sec)", work_ticks, work_ticks / 1000000ULL);
 
     while (1)
     {
         // Чекаємо на сповіщення від переривання (не споживає процесорний час)
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
-        // Перемикання станів та оновлення таймера «на льоту»
         if (current_state == FAN_STATE_WORKING)
         {
             current_state = FAN_STATE_PAUSED;
-            gpio_set_level(FAN_GPIO, 0); // Вимкнути вентилятор
+            gpio_set_level(FAN_GPIO, 0);
 
             gptimer_stop(gptimer);
-            alarm_config.alarm_value = pause_ticks;
+            alarm_config.alarm_count = pause_ticks;
             gptimer_set_alarm_action(gptimer, &alarm_config);
             gptimer_set_raw_count(gptimer, 0);
             gptimer_start(gptimer);
@@ -99,10 +100,10 @@ void exhaust_fan_task(void *pvParameters)
         else
         {
             current_state = FAN_STATE_WORKING;
-            gpio_set_level(FAN_GPIO, 1); // Увімкнути вентилятор
+            gpio_set_level(FAN_GPIO, 1);
 
             gptimer_stop(gptimer);
-            alarm_config.alarm_value = work_ticks;
+            alarm_config.alarm_count = work_ticks;
             gptimer_set_alarm_action(gptimer, &alarm_config);
             gptimer_set_raw_count(gptimer, 0);
             gptimer_start(gptimer);
@@ -112,12 +113,11 @@ void exhaust_fan_task(void *pvParameters)
     }
 }
 
-// Функція ініціалізації завдання для виклику з main.c
 void exhaust_fan_init(void)
 {
     // Зберігаємо поточний хендлер таски для ISR
     fan_task_handle = xTaskGetCurrentTaskHandle();
 
     // Створюємо окрему FreeRTOS таску
-    xTaskCreate(exhaust_fan_task, "exhaust_fan_task", 2048, NULL, 5, NULL);
+    xTaskCreate(exhaust_fan_task, "exhaust_fan_task", 2048, NULL, 5, &fan_task_handle);
 }
