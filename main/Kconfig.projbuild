@@ -19,6 +19,35 @@ config HW_02_4_3_HW_INTERRUPTS
 config HW_02_4_4_HW_INTERRUPTS
     bool "HW 02_4_4: HW_Interrupts"
 
+config HW_02_5_EXHAUST_FAN
+    bool "HW 02_5: Exhaust Fan Control"
+
 endchoice
 
 endmenu
+
+if HW_02_5_EXHAUST_FAN
+
+menu "Exhaust Fan Parameters"
+
+    config EXHAUST_FAN_WORK_TIME_MIN
+        int "Fan working duration (units)"
+        default 15
+        help
+            Duration of fan working state.
+
+    config EXHAUST_FAN_PAUSE_TIME_MIN
+        int "Fan pause duration (units)"
+        default 45
+        help
+            Duration of fan pause state.
+
+    config EXHAUST_FAN_DEBUG_MODE
+        bool "Enable fast debug mode (seconds instead of minutes)"
+        default y
+        help
+            Scales units to seconds for quick testing.
+
+endmenu
+
+endif # HW_02_5_EXHAUST_FAN
