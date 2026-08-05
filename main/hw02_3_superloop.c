@@ -1,3 +1,7 @@
+#include "sdkconfig.h"
+
+#if CONFIG_HW_02_3_SUPERLOOP
+
 #include "hw02_3_superloop.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -56,3 +60,4 @@ void hw02_3_superloop_run(void)
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+#endif

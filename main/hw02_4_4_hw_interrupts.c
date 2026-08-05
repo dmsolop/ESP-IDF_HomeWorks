@@ -1,3 +1,5 @@
+#include "sdkconfig.h"
+#if CONFIG_HW_02_4_4_HW_INTERRUPTS
 #include "hw02_4_4_hw_interrupts.h"
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
@@ -87,3 +89,4 @@ void hw02_4_4_run(void)
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
+#endif

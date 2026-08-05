@@ -1,5 +1,6 @@
-#include "hw02_5_exhaust_fan.h"
 #include "sdkconfig.h"
+#if CONFIG_HW_02_5_EXHAUST_FAN
+#include "hw02_5_exhaust_fan.h"
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -121,3 +122,4 @@ void exhaust_fan_init(void)
     // Створюємо окрему FreeRTOS таску
     xTaskCreate(exhaust_fan_task, "exhaust_fan_task", 2048, NULL, 5, &fan_task_handle);
 }
+#endif
