@@ -6,6 +6,7 @@
 #include "hw02_4_2_hw_interrupts.h"
 #include "hw02_4_3_hw_interrupts.h"
 #include "hw02_4_4_hw_interrupts.h"
+#include "hw02_5_exhaust_fan.h"
 
 void app_main(void)
 {
@@ -19,5 +20,7 @@ void app_main(void)
     hw02_4_3_run();
 #elif CONFIG_HW_02_4_4_HW_INTERRUPTS
     hw02_4_4_run();
+#elif CONFIG_HW_02_5_EXHAUST_FAN
+    exhaust_fan_init();
 #endif
 }
