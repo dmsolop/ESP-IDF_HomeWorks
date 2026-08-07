@@ -1,2 +1,2 @@
 idf_component_register(SRCS "hw02_5_exhaust_fan.c" "hw02_4_1_hw_interrupts.c" "hw02_4_2_hw_interrupts.c" "hw02_4_3_hw_interrupts.c" "hw02_4_4_hw_interrupts.c" "hw02_3_superloop.c" "main.c"
-                    INCLUDE_DIRS ".")
+                    INCLUDE_DIRS "." REQUIRES mini_proj_traffic_light)

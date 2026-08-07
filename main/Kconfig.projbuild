@@ -22,6 +22,9 @@ config HW_02_4_4_HW_INTERRUPTS
 config HW_02_5_EXHAUST_FAN
     bool "HW 02_5: Exhaust Fan Control"
 
+config MINI_PROJ_TRAFFIC_LIGHT
+    bool "Mini Project: Smart Traffic Light"
+
 endchoice
 
 endmenu
@@ -51,3 +54,73 @@ menu "Exhaust Fan Parameters"
 endmenu
 
 endif # HW_02_5_EXHAUST_FAN
+
+if MINI_PROJ_TRAFFIC_LIGHT
+
+menu "Traffic Light Configuration"
+
+    menu "GPIO Configuration"
+        config TRAFFIC_PIN_LED_RED
+            int "Red LED GPIO"
+            default 21
+
+        config TRAFFIC_PIN_LED_YELLOW
+            int "Yellow LED GPIO"
+            default 22
+
+        config TRAFFIC_PIN_LED_GREEN
+            int "Green LED GPIO"
+            default 23
+
+        config TRAFFIC_PIN_BUTTON
+            int "Pedestrian Button GPIO"
+            default 18
+
+        config TRAFFIC_PIN_BUZZER
+            int "Buzzer GPIO"
+            default 19
+
+        config TRAFFIC_ADC_CHANNEL_LDR
+            int "LDR ADC Channel (e.g. 6 for GPIO34)"
+            default 6
+    endmenu
+
+    menu "Traffic Light Timings (ms)"
+        config TRAFFIC_TIME_GREEN
+            int "Green phase duration (ms)"
+            default 10000
+
+        config TRAFFIC_TIME_GREEN_FLASH
+            int "Green flashing duration (ms)"
+            default 3000
+
+        config TRAFFIC_TIME_YELLOW
+            int "Yellow phase duration (ms)"
+            default 2000
+
+        config TRAFFIC_TIME_RED
+            int "Red phase duration (ms)"
+            default 10000
+
+        config TRAFFIC_TIME_RED_YELLOW
+            int "Red+Yellow phase duration (ms)"
+            default 2000
+            
+        config TRAFFIC_DEBOUNCE_TIME
+            int "Button debounce time (us)"
+            default 50000
+    endmenu
+
+    menu "LDR Sensor Thresholds"
+        config TRAFFIC_LDR_NIGHT_THRESHOLD
+            int "Night threshold (ADC below this is Night)"
+            default 1000
+
+        config TRAFFIC_LDR_DAY_THRESHOLD
+            int "Day threshold (ADC above this is Day)"
+            default 1500
+    endmenu
+
+endmenu
+
+endif # MINI_PROJ_TRAFFIC_LIGHT
