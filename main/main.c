@@ -22,5 +22,7 @@ void app_main(void)
     hw02_4_4_run();
 #elif CONFIG_HW_02_5_EXHAUST_FAN
     exhaust_fan_init();
+#elif CONFIG_MINI_PROJ_TRAFFIC_LIGHT
+    traffic_fsm_init();
 #endif
 }
