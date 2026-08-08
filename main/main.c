@@ -7,6 +7,7 @@
 #include "hw02_4_3_hw_interrupts.h"
 #include "hw02_4_4_hw_interrupts.h"
 #include "hw02_5_exhaust_fan.h"
+#include "traffic_fsm.h"
 
 void app_main(void)
 {
