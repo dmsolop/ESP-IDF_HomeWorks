@@ -42,6 +42,11 @@ static void traffic_fsm_task(void *pvParameters)
 
     while (1)
     {
+        // Перевірка чи змінюється число при закриванні датчика пальцем і які пороги варто виставити у Kconfig
+        int ldr_raw = sensor_ldr_read_raw();
+        ldr_mode_t current_mode = sensor_ldr_get_mode();
+        ESP_LOGI(TAG, "LDR Raw ADC: %d | Mode: %s", ldr_raw, current_mode == LDR_MODE_NIGHT ? "NIGHT" : "DAY");
+
         // Перевірка режиму день/ніч за LDR
         if (sensor_ldr_get_mode() == LDR_MODE_NIGHT)
         {
@@ -51,6 +56,8 @@ static void traffic_fsm_task(void *pvParameters)
         switch (state)
         {
         case TRAFFIC_STATE_RED:
+            ESP_LOGI(TAG, "-- STATE: RED --");
+
             ulTaskNotifyTake(pdTRUE, 0); // Очищуємо буфер сповіщень щоб відмінити натискання під час "зеленого" або "жовтого" світла
             set_leds(true, false, false);
             buzzer_send_cmd(BUZZER_CMD_STOP);
@@ -64,12 +71,16 @@ static void traffic_fsm_task(void *pvParameters)
             break;
 
         case TRAFFIC_STATE_RED_YELLOW:
+            ESP_LOGI(TAG, "-- STATE: RED + YELLOW --");
+
             set_leds(true, true, false);
             vTaskDelay(pdMS_TO_TICKS(CONFIG_TRAFFIC_TIME_RED_YELLOW));
             state = TRAFFIC_STATE_GREEN;
             break;
 
         case TRAFFIC_STATE_GREEN:
+            ESP_LOGI(TAG, "-- STATE: GREEN (Pedestrian Walk) --");
+
             set_leds(false, false, true);
             buzzer_send_cmd(BUZZER_CMD_PEDESTRIAN_WALK);
             vTaskDelay(pdMS_TO_TICKS(CONFIG_TRAFFIC_TIME_GREEN));
@@ -77,21 +88,24 @@ static void traffic_fsm_task(void *pvParameters)
             break;
 
         case TRAFFIC_STATE_GREEN_FLASH:
-        {
-            buzzer_send_cmd(BUZZER_CMD_WARNING);
-            int flashes = CONFIG_TRAFFIC_TIME_GREEN_FLASH / 500;
-            for (int i = 0; i < flashes; i++)
+            ESP_LOGI(TAG, "-- STATE: GREEN FLASHING --");
             {
-                set_leds(false, false, true); // Зелений
-                vTaskDelay(pdMS_TO_TICKS(250));
-                set_leds(false, false, false);
-                vTaskDelay(pdMS_TO_TICKS(250));
+                buzzer_send_cmd(BUZZER_CMD_WARNING);
+                int flashes = CONFIG_TRAFFIC_TIME_GREEN_FLASH / 500;
+                for (int i = 0; i < flashes; i++)
+                {
+                    set_leds(false, false, true); // Зелений
+                    vTaskDelay(pdMS_TO_TICKS(250));
+                    set_leds(false, false, false);
+                    vTaskDelay(pdMS_TO_TICKS(250));
+                }
+                state = TRAFFIC_STATE_YELLOW;
+                break;
             }
-            state = TRAFFIC_STATE_YELLOW;
-            break;
-        }
 
         case TRAFFIC_STATE_YELLOW:
+            ESP_LOGI(TAG, "-- STATE: YELLOW --");
+
             set_leds(false, true, false);
             buzzer_send_cmd(BUZZER_CMD_STOP);
             vTaskDelay(pdMS_TO_TICKS(CONFIG_TRAFFIC_TIME_YELLOW));
@@ -99,6 +113,7 @@ static void traffic_fsm_task(void *pvParameters)
             break;
 
         case TRAFFIC_STATE_NIGHT_FLASH:
+            ESP_LOGI(TAG, "-- STATE: NIGHT FLASH --");
             buzzer_send_cmd(BUZZER_CMD_STOP);
             while (sensor_ldr_get_mode() == LDR_MODE_NIGHT)
             {
@@ -119,7 +134,7 @@ esp_err_t traffic_fsm_init(void)
     ESP_ERROR_CHECK(sensor_ldr_init());
     ESP_ERROR_CHECK(buzzer_init(NULL));
 
-    BaseType_t res = xTaskCreate(traffic_fsm_task, "traffic_fsm_task", 3072, NULL, 5, &g_fsm_task_handle);
+    BaseType_t res = xTaskCreate(traffic_fsm_task, "traffic_fsm_task", 4096, NULL, 5, &g_fsm_task_handle);
     if (res != pdPASS)
     {
         ESP_LOGE(TAG, "Failed to create FSM task");
