@@ -52,12 +52,23 @@ int sensor_ldr_read_raw(void)
 
 ldr_mode_t sensor_ldr_get_mode(void)
 {
+    static ldr_mode_t current_mode = LDR_MODE_DAY;
     int raw = sensor_ldr_read_raw();
-    if (raw >= 0 && raw < CONFIG_TRAFFIC_LDR_NIGHT_THRESHOLD)
+
+    if (raw < 0)
+        return current_mode;
+
+    if (raw < CONFIG_TRAFFIC_LDR_NIGHT_THRESHOLD)
     {
-        return LDR_MODE_NIGHT;
+        current_mode = LDR_MODE_NIGHT;
     }
-    return LDR_MODE_DAY;
+    else if (raw > CONFIG_TRAFFIC_LDR_DAY_THRESHOLD)
+    {
+        current_mode = LDR_MODE_DAY;
+    }
+    // Якщо значення між порогами — стан не змінюється (гістерезис)
+
+    return current_mode;
 }
 
 #endif
