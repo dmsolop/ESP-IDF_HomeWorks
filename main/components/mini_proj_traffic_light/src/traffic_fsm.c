@@ -51,6 +51,7 @@ static void traffic_fsm_task(void *pvParameters)
         switch (state)
         {
         case TRAFFIC_STATE_RED:
+            ulTaskNotifyTake(pdTRUE, 0); // Очищуємо буфер сповіщень щоб відмінити натискання під час "зеленого" або "жовтого" світла
             set_leds(true, false, false);
             buzzer_send_cmd(BUZZER_CMD_STOP);
 
