@@ -12,6 +12,16 @@
 #include "freertos/task.h"
 #include <stdlib.h>
 
+#if CONFIG_HW_03_2_ADC_EMA
+#define LDR_ADC_CHANNEL CONFIG_ADC_CHANNEL_LDR
+#define LDR_NIGHT_THRESHOLD CONFIG_LDR_NIGHT_THRESHOLD
+#define LDR_DAY_THRESHOLD CONFIG_LDR_DAY_THRESHOLD
+#elif CONFIG_MINI_PROJ_TRAFFIC_LIGHT
+#define LDR_ADC_CHANNEL CONFIG_TRAFFIC_ADC_CHANNEL_LDR
+#define LDR_NIGHT_THRESHOLD CONFIG_TRAFFIC_LDR_NIGHT_THRESHOLD
+#define LDR_DAY_THRESHOLD CONFIG_TRAFFIC_LDR_DAY_THRESHOLD
+#endif
+
 static const char *TAG = "SENSOR_LDR";
 static adc_oneshot_unit_handle_t g_adc_handle = NULL;
 static adc_cali_handle_t g_cali_handle = NULL;
@@ -32,7 +42,7 @@ static void ldr_processing_task(void *arg)
     while (1)
     {
         int raw_val = 0;
-        if (adc_oneshot_read(g_adc_handle, CONFIG_ADC_CHANNEL_LDR, &raw_val) == ESP_OK)
+        if (adc_oneshot_read(g_adc_handle, LDR_ADC_CHANNEL, &raw_val) == ESP_OK)
         {
             g_last_raw_val = raw_val; // Зберігаємо для зворотної сумісності з sensor_ldr_read_raw()
 
@@ -57,11 +67,11 @@ static void ldr_processing_task(void *arg)
 
             int filtered_mv = (int)g_ema_filtered_mv;
 
-            if (g_current_mode == LDR_MODE_DAY && filtered_mv < CONFIG_LDR_NIGHT_THRESHOLD)
+            if (g_current_mode == LDR_MODE_DAY && filtered_mv < LDR_NIGHT_THRESHOLD)
             {
                 g_current_mode = LDR_MODE_NIGHT;
             }
-            else if (g_current_mode == LDR_MODE_NIGHT && filtered_mv > CONFIG_LDR_DAY_THRESHOLD)
+            else if (g_current_mode == LDR_MODE_NIGHT && filtered_mv > LDR_DAY_THRESHOLD)
             {
                 g_current_mode = LDR_MODE_DAY;
             }
@@ -86,17 +96,17 @@ esp_err_t sensor_ldr_init(void)
         .bitwidth = ADC_BITWIDTH_DEFAULT,
         .atten = ADC_ATTEN_DB_12,
     };
-    err = adc_oneshot_config_channel(g_adc_handle, CONFIG_ADC_CHANNEL_LDR, &config);
+    err = adc_oneshot_config_channel(g_adc_handle, LDR_ADC_CHANNEL, &config);
     if (err != ESP_OK)
     {
-        ESP_LOGE(TAG, "Failed to config ADC channel %d", CONFIG_ADC_CHANNEL_LDR);
+        ESP_LOGE(TAG, "Failed to config ADC channel %d", LDR_ADC_CHANNEL);
         return err;
     }
 
     // Ініціалізація калібрування
     adc_cali_curve_fitting_config_t cali_config = {
         .unit_id = ADC_UNIT_1,
-        .chan = CONFIG_ADC_CHANNEL_LDR,
+        .chan = LDR_ADC_CHANNEL,
         .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BITWIDTH_DEFAULT,
     };
@@ -108,7 +118,7 @@ esp_err_t sensor_ldr_init(void)
     // Запуск фільтрації
     xTaskCreate(ldr_processing_task, "ldr_task", 2048, NULL, 5, NULL);
 
-    ESP_LOGI(TAG, "LDR initialized on ADC channel %d", CONFIG_ADC_CHANNEL_LDR);
+    ESP_LOGI(TAG, "LDR initialized on ADC channel %d", LDR_ADC_CHANNEL);
     return ESP_OK;
 }
 
