@@ -5,10 +5,22 @@
 #include "buzzer.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
+#include "esp_rom_sys.h"
 #include "freertos/queue.h"
 
 static const char *TAG = "BUZZER_MODULE";
 static QueueHandle_t g_buzzer_queue = NULL;
+
+static void buzzer_signal()
+{
+    for (int i = 0; i < 200; i++)
+    { // ~100 мс звуку
+        gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 1);
+        esp_rom_delay_us(250); // Частота ~2 кГц
+        gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 0);
+        esp_rom_delay_us(250);
+    }
+}
 
 static void buzzer_task(void *pvParameters)
 {
@@ -26,14 +38,16 @@ static void buzzer_task(void *pvParameters)
         switch (current_cmd)
         {
         case BUZZER_CMD_PEDESTRIAN_WALK:
-            gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 1);
+            buzzer_signal();
+            // gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 1);
             vTaskDelay(pdMS_TO_TICKS(100));
             gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 0);
             vTaskDelay(pdMS_TO_TICKS(100));
             break;
 
         case BUZZER_CMD_WARNING:
-            gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 1);
+            buzzer_signal();
+            // gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 1);
             vTaskDelay(pdMS_TO_TICKS(300));
             gpio_set_level(CONFIG_TRAFFIC_PIN_BUZZER, 0);
             vTaskDelay(pdMS_TO_TICKS(300));
