@@ -127,3 +127,21 @@ menu "Traffic Light Configuration"
 endmenu
 
 endif # MINI_PROJ_TRAFFIC_LIGHT
+
+if HW_03_2_ADC_EMA
+
+menu "LDR Sensor Thresholds"
+    config ADC_CHANNEL_LDR
+        int "LDR ADC Channel (e.g. 7 for GPIO8)"
+        default 7
+
+    config LDR_NIGHT_THRESHOLD
+        int "Night threshold (mV)"
+        default 800
+
+    config LDR_DAY_THRESHOLD
+        int "Day threshold (mV)"
+        default 1200
+endmenu
+
+endif # HW_03_2_ADC_EMA

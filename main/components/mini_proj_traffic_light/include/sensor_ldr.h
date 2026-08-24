@@ -3,7 +3,8 @@
 
 #include "sdkconfig.h"
 
-#if CONFIG_MINI_PROJ_TRAFFIC_LIGHT
+// Додано підтримку конфіга нової домашки
+#if defined(CONFIG_MINI_PROJ_TRAFFIC_LIGHT) || defined(CONFIG_HW_03_2_ADC_EMA)
 
 #include "esp_err.h"
 #include <stdbool.h>
