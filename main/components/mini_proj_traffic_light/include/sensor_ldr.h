@@ -16,6 +16,7 @@ typedef enum
 
 esp_err_t sensor_ldr_init(void);
 int sensor_ldr_read_raw(void);
+int sensor_ldr_get_filtered_mv(void); // Додано
 ldr_mode_t sensor_ldr_get_mode(void);
 
 #endif
