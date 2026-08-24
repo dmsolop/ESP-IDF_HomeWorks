@@ -25,6 +25,9 @@ config HW_02_5_EXHAUST_FAN
 config MINI_PROJ_TRAFFIC_LIGHT
     bool "Mini Project: Smart Traffic Light"
 
+config HW_03_2_ADC_EMA
+    bool "HW 03_2: SMA and LDR"
+
 endchoice
 
 endmenu
