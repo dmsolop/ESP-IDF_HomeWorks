@@ -31,6 +31,9 @@ config HW_03_1_ADC_CALIB
 config HW_03_2_ADC_EMA
     bool "HW 03_2: SMA and LDR"
 
+config CW_SERVO_POT
+    bool "Classwork: Servo Control via Potentiometer (LEDC + ADC)"
+
 endchoice
 
 endmenu
@@ -168,3 +171,27 @@ menu "HW 03_1: ADC Calibration Configuration"
 endmenu
 
 endif # HW_03_1_ADC_CALIB
+
+if CW_SERVO_POT
+
+menu "Classwork: Servo & Potentiometer Configuration"
+
+    config CW_SERVO_GPIO
+        int "Servo Motor PWM GPIO"
+        default 18
+
+    config CW_POT_ADC_CHANNEL
+        int "Potentiometer ADC Channel (e.g. 7 for GPIO8)"
+        default 7
+
+    config CW_SERVO_MIN_PULSE_US
+        int "Min Pulse Width (us) for 0 deg"
+        default 1000
+
+    config CW_SERVO_MAX_PULSE_US
+        int "Max Pulse Width (us) for 180 deg"
+        default 2000
+
+endmenu
+
+endif # CW_SERVO_POT

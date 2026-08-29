@@ -10,6 +10,7 @@
 #include "hw03_1_adc_calib.h"
 #include "hw03_2_adc_ema.h"
 #include "traffic_fsm.h"
+#include "cw_servo_pot.h"
 
 void app_main(void)
 {
@@ -31,5 +32,7 @@ void app_main(void)
     hw03_1_run();
 #elif CONFIG_HW_03_2_ADC_EMA
     hw03_2_run();
+#elif CONFIG_CW_SERVO_POT
+    cw_servo_pot_run();
 #endif
 }
