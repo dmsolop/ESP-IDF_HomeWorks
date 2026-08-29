@@ -31,6 +31,9 @@ config HW_03_1_ADC_CALIB
 config HW_03_2_ADC_EMA
     bool "HW 03_2: SMA and LDR"
 
+config HW_03_3_PWM_CONTROL
+    bool "HW 03_3: PWM Motor & LED Control"
+
 config CW_SERVO_POT
     bool "Classwork: Servo Control via Potentiometer (LEDC + ADC)"
 
@@ -195,3 +198,21 @@ menu "Classwork: Servo & Potentiometer Configuration"
 endmenu
 
 endif # CW_SERVO_POT
+
+if HW_03_3_PWM_CONTROL
+
+menu "HW 03_3: PWM Configuration"
+    config HW_03_3_ADC_POT
+        int "Potentiometer ADC Channel (e.g. 7 for GPIO8)"
+        default 7
+
+    config HW_03_3_LED_GPIO
+        int "LED GPIO"
+        default 17
+
+    config HW_03_3_MOTOR_GPIO
+        int "Motor GPIO"
+        default 18
+endmenu
+
+endif # HW_03_3_PWM_CONTROL
