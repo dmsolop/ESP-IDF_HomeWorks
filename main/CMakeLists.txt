@@ -1,2 +1,2 @@
-idf_component_register(SRCS "cw_servo_pot.c" "hw03_3_pwm_control.c" "hw03_2_adc_ema.c" "hw03_1_adc_calib.c" "hw02_5_exhaust_fan.c" "hw02_4_1_hw_interrupts.c" "hw02_4_2_hw_interrupts.c" "hw02_4_3_hw_interrupts.c" "hw02_4_4_hw_interrupts.c" "hw02_3_superloop.c" "main.c"
+idf_component_register(SRCS "cw_servo_pot.c" "hw03_4_buzzer.c" "hw03_3_pwm_control.c" "hw03_2_adc_ema.c" "hw03_1_adc_calib.c" "hw02_5_exhaust_fan.c" "hw02_4_1_hw_interrupts.c" "hw02_4_2_hw_interrupts.c" "hw02_4_3_hw_interrupts.c" "hw02_4_4_hw_interrupts.c" "hw02_3_superloop.c" "main.c"
                     INCLUDE_DIRS "." REQUIRES mini_proj_traffic_light esp_driver_ledc esp_adc)

@@ -34,6 +34,9 @@ config HW_03_2_ADC_EMA
 config HW_03_3_PWM_CONTROL
     bool "HW 03_3: PWM Motor & LED Control"
 
+config HW_03_4_BUZZER_PWM
+    bool "HW 03_4: Non-blocking PWM Buzzer Player"
+
 config CW_SERVO_POT
     bool "Classwork: Servo Control via Potentiometer (LEDC + ADC)"
 
@@ -65,7 +68,7 @@ menu "Exhaust Fan Parameters"
 
 endmenu
 
-endif # HW_02_5_EXHAUST_FAN
+endif
 
 if MINI_PROJ_TRAFFIC_LIGHT
 
@@ -135,7 +138,7 @@ menu "Traffic Light Configuration"
 
 endmenu
 
-endif # MINI_PROJ_TRAFFIC_LIGHT
+endif
 
 if HW_03_2_ADC_EMA
 
@@ -153,7 +156,7 @@ menu "LDR Sensor Thresholds"
         default 1200
 endmenu
 
-endif # HW_03_2_ADC_EMA
+endif
 
 if HW_03_1_ADC_CALIB
 
@@ -173,7 +176,7 @@ menu "HW 03_1: ADC Calibration Configuration"
 
 endmenu
 
-endif # HW_03_1_ADC_CALIB
+endif
 
 if CW_SERVO_POT
 
@@ -197,7 +200,7 @@ menu "Classwork: Servo & Potentiometer Configuration"
 
 endmenu
 
-endif # CW_SERVO_POT
+endif
 
 if HW_03_3_PWM_CONTROL
 
@@ -215,4 +218,14 @@ menu "HW 03_3: PWM Configuration"
         default 18
 endmenu
 
-endif # HW_03_3_PWM_CONTROL
+endif
+
+if HW_03_4_BUZZER_PWM
+
+menu "HW 03_4: Buzzer Configuration"
+    config HW_03_4_BUZZER_GPIO
+        int "Buzzer GPIO Num"
+        default 15
+endmenu
+
+endif
