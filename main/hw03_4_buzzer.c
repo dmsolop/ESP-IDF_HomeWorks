@@ -32,9 +32,53 @@ typedef struct
     uint16_t freq_hz;
     uint8_t duration_ticks;
 } note_t;
-
 static const note_t melody[] = {
-    {NOTE_E4, 4}, {NOTE_E4, 4}, {NOTE_E4, 8}, {NOTE_E4, 4}, {NOTE_E4, 4}, {NOTE_E4, 8}, {NOTE_E4, 4}, {NOTE_G4, 4}, {NOTE_C4, 6}, {NOTE_D4, 2}, {NOTE_E4, 12}, {NOTE_REST, 4}};
+    // E E E | E E E | E G C D | E
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 8},
+    {NOTE_REST, 2},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 8},
+    {NOTE_REST, 2},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_G4, 4},
+    {NOTE_REST, 1},
+    {NOTE_C4, 6},
+    {NOTE_D4, 2},
+    {NOTE_E4, 12},
+    {NOTE_REST, 4},
+
+    // F F F F | F E E E | E D D E | D G
+    {NOTE_F4, 4},
+    {NOTE_REST, 1},
+    {NOTE_F4, 4},
+    {NOTE_REST, 1},
+    {NOTE_F4, 6},
+    {NOTE_F4, 2},
+    {NOTE_F4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_E4, 4},
+    {NOTE_E4, 2},
+    {NOTE_E4, 2},
+    {NOTE_E4, 4},
+    {NOTE_REST, 1},
+    {NOTE_D4, 4},
+    {NOTE_REST, 1},
+    {NOTE_D4, 4},
+    {NOTE_E4, 4},
+    {NOTE_D4, 8},
+    {NOTE_G4, 8},
+    {NOTE_REST, 6}};
+
 static const size_t MELODY_LEN = sizeof(melody) / sizeof(note_t);
 
 // Стан плеєра
