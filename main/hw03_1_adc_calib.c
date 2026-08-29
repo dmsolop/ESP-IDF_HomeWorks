@@ -4,7 +4,7 @@
 
 #include "hw03_1_adc_calib.h"
 #include <stdio.h>
-#include <math.h> // Потрібен для функції fabs()
+#include <math.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_adc/adc_oneshot.h"
@@ -25,7 +25,7 @@ void hw03_1_run(void)
 
     adc_oneshot_chan_cfg_t config = {
         .bitwidth = ADC_BITWIDTH_DEFAULT,
-        .atten = ADC_ATTEN_DB_12, // 12 дБ дозволяє міряти до ~3.3 В
+        .atten = ADC_ATTEN_DB_12,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, CONFIG_HW_03_1_ADC_CHANNEL, &config));
 
