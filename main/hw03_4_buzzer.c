@@ -15,14 +15,15 @@ static const char *TAG = "BUZZER_PLAYER";
 #define BUZZER_CHANNEL LEDC_CHANNEL_0
 #define BUZZER_RESOLUTION LEDC_TIMER_10_BIT
 
-#define NOTE_C4 262
+#define NOTE_CS4 277
 #define NOTE_D4 294
 #define NOTE_E4 330
-#define NOTE_F4 349
+#define NOTE_FS4 370
 #define NOTE_G4 392
+#define NOTE_GS4 415
 #define NOTE_A4 440
+#define NOTE_AS4 466
 #define NOTE_B4 494
-#define NOTE_C5 523
 #define NOTE_REST 0
 
 typedef struct
@@ -30,52 +31,88 @@ typedef struct
     uint16_t freq_hz;
     uint8_t duration_ticks;
 } note_t;
+// Вступ "Hotel California" (Eagles)
 static const note_t melody[] = {
-    // E E E | E E E | E G C D | E
-    {NOTE_E4, 4},
+    // Такт 1: Bm (B -> F# -> D -> F#)
+    {NOTE_B4, 3},
     {NOTE_REST, 1},
-    {NOTE_E4, 4},
+    {NOTE_FS4, 3},
     {NOTE_REST, 1},
-    {NOTE_E4, 8},
+    {NOTE_D4, 3},
+    {NOTE_REST, 1},
+    {NOTE_FS4, 4},
     {NOTE_REST, 2},
-    {NOTE_E4, 4},
-    {NOTE_REST, 1},
-    {NOTE_E4, 4},
-    {NOTE_REST, 1},
-    {NOTE_E4, 8},
-    {NOTE_REST, 2},
-    {NOTE_E4, 4},
-    {NOTE_REST, 1},
-    {NOTE_G4, 4},
-    {NOTE_REST, 1},
-    {NOTE_C4, 6},
-    {NOTE_D4, 2},
-    {NOTE_E4, 12},
-    {NOTE_REST, 4},
 
-    // F F F F | F E E E | E D D E | D G
-    {NOTE_F4, 4},
+    // Такт 2: F#7 (A# -> F# -> C# -> F#)
+    {NOTE_AS4, 3},
     {NOTE_REST, 1},
-    {NOTE_F4, 4},
+    {NOTE_FS4, 3},
     {NOTE_REST, 1},
-    {NOTE_F4, 6},
-    {NOTE_F4, 2},
-    {NOTE_F4, 4},
+    {NOTE_CS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_FS4, 4},
+    {NOTE_REST, 2},
+
+    // Такт 3: A (A -> E -> C# -> E)
+    {NOTE_A4, 3},
+    {NOTE_REST, 1},
+    {NOTE_E4, 3},
+    {NOTE_REST, 1},
+    {NOTE_CS4, 3},
     {NOTE_REST, 1},
     {NOTE_E4, 4},
+    {NOTE_REST, 2},
+
+    // Такт 4: E (G# -> E -> B -> E)
+    {NOTE_GS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_E4, 3},
+    {NOTE_REST, 1},
+    {NOTE_B4, 3},
     {NOTE_REST, 1},
     {NOTE_E4, 4},
-    {NOTE_E4, 2},
-    {NOTE_E4, 2},
-    {NOTE_E4, 4},
+    {NOTE_REST, 2},
+
+    // Такт 5: G (G -> D -> B -> D)
+    {NOTE_G4, 3},
+    {NOTE_REST, 1},
+    {NOTE_D4, 3},
+    {NOTE_REST, 1},
+    {NOTE_B4, 3},
     {NOTE_REST, 1},
     {NOTE_D4, 4},
+    {NOTE_REST, 2},
+
+    // Такт 6: D (F# -> D -> A -> D)
+    {NOTE_FS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_D4, 3},
+    {NOTE_REST, 1},
+    {NOTE_A4, 3},
     {NOTE_REST, 1},
     {NOTE_D4, 4},
-    {NOTE_E4, 4},
-    {NOTE_D4, 8},
-    {NOTE_G4, 8},
-    {NOTE_REST, 6}};
+    {NOTE_REST, 2},
+
+    // Такт 7: Em (E -> B -> G -> B)
+    {NOTE_E4, 3},
+    {NOTE_REST, 1},
+    {NOTE_B4, 3},
+    {NOTE_REST, 1},
+    {NOTE_G4, 3},
+    {NOTE_REST, 1},
+    {NOTE_B4, 4},
+    {NOTE_REST, 2},
+
+    // Такт 8: F#7 (F# -> C# -> A# -> F#)
+    {NOTE_FS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_CS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_AS4, 3},
+    {NOTE_REST, 1},
+    {NOTE_FS4, 6},
+    {NOTE_REST, 6},
+};
 
 static const size_t MELODY_LEN = sizeof(melody) / sizeof(note_t);
 
