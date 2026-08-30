@@ -13,6 +13,7 @@
 #include "hw03_4_buzzer.h"
 #include "traffic_fsm.h"
 #include "cw_servo_pot.h"
+#include "hw03_5_servo.h"
 
 void app_main(void)
 {
@@ -40,5 +41,7 @@ void app_main(void)
     hw03_4_run();
 #elif CONFIG_CW_SERVO_POT
     cw_servo_pot_run();
+#elif CONFIG_HW_03_5_SERVO_CONTROL
+    hw03_5_run();
 #endif
 }

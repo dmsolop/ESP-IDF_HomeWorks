@@ -40,6 +40,9 @@ config HW_03_4_BUZZER_PWM
 config CW_SERVO_POT
     bool "Classwork: Servo Control via Potentiometer (LEDC + ADC)"
 
+config HW_03_5_SERVO_CONTROL
+    bool "HW 03_5: Servo Control via PWM & Potentiometer"
+
 endchoice
 
 endmenu
@@ -226,6 +229,29 @@ menu "HW 03_4: Buzzer Configuration"
     config HW_03_4_BUZZER_GPIO
         int "Buzzer GPIO Num"
         default 15
+endmenu
+
+endif
+
+if HW_03_5_SERVO_CONTROL
+
+menu "HW 03_5: Servo Configuration"
+    config HW_03_5_SERVO_GPIO
+        int "Servo Signal GPIO Num"
+        default 18
+        help
+            GPIO пін для виводу керуючого ШІМ-сигналу (50 Гц) на сервопривод.
+    config CW_POT_ADC_CHANNEL
+        int "Potentiometer ADC Channel (e.g. 7 for GPIO8)"
+        default 7
+
+    config CW_SERVO_MIN_PULSE_US
+        int "Min Pulse Width (us) for 0 deg"
+        default 1000
+
+    config CW_SERVO_MAX_PULSE_US
+        int "Max Pulse Width (us) for 180 deg"
+        default 2000
 endmenu
 
 endif
