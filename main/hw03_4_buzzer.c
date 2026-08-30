@@ -3,8 +3,6 @@
 #if CONFIG_HW_03_4_BUZZER_PWM
 
 #include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "driver/ledc.h"
 #include "esp_timer.h"
 #include "esp_log.h"
@@ -163,12 +161,6 @@ void hw03_4_run(void)
     ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, 50000)); // 50 000 мкс = 50 мс
 
     ESP_LOGI(TAG, "Неблокуючий плеєр запущено на GPIO %d", CONFIG_HW_03_4_BUZZER_GPIO);
-
-    // Головний потік вільний і може виконувати будь-яку іншу роботу!
-    while (1)
-    {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
 }
 
 #endif
