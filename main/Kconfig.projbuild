@@ -236,22 +236,31 @@ endif
 if HW_03_5_SERVO_CONTROL
 
 menu "HW 03_5: Servo Configuration"
+
     config HW_03_5_SERVO_GPIO
         int "Servo Signal GPIO Num"
         default 18
         help
             GPIO пін для виводу керуючого ШІМ-сигналу (50 Гц) на сервопривод.
-    config CW_POT_ADC_CHANNEL
-        int "Potentiometer ADC Channel (e.g. 7 for GPIO8)"
+
+    config HW_03_5_POT_ADC_CHANNEL
+        int "Potentiometer ADC Channel Num (ADC1)"
         default 7
+        help
+            Номер каналу ADC1 для зчитування потенціометра (ADC_CHANNEL_7 для GPIO 8 і таке інше).
 
-    config CW_SERVO_MIN_PULSE_US
-        int "Min Pulse Width (us) for 0 deg"
-        default 1000
+    config HW_03_5_SERVO_MIN_PULSE_US
+        int "Servo Min Pulse Width (us)"
+        default 500
+        help
+            Тривалість імпульсу ШІМ для кута 0 градусів мкс.
 
-    config CW_SERVO_MAX_PULSE_US
-        int "Max Pulse Width (us) for 180 deg"
-        default 2000
+    config HW_03_5_SERVO_MAX_PULSE_US
+        int "Servo Max Pulse Width (us)"
+        default 2500
+        help
+            Тривалість імпульсу ШІМ для максимального кута мкс.
+
 endmenu
 
 endif
