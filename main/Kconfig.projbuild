@@ -43,6 +43,9 @@ config CW_SERVO_POT
 config HW_03_5_SERVO_CONTROL
     bool "HW 03_5: Servo Control via PWM & Potentiometer"
 
+config HW_04_1_UART_BRIDGE
+    bool "HW 04.1: Bidirectional UART Bridge to STM32"
+
 endchoice
 
 endmenu
@@ -260,6 +263,44 @@ menu "HW 03_5: Servo Configuration"
         default 2500
         help
             Тривалість імпульсу ШІМ для максимального кута мкс.
+
+endmenu
+
+endif
+
+if HW_04_1_UART_BRIDGE
+
+menu "HW 04_1: UART Bridge Configuration"
+
+    config HW_04_1_UART_TX_GPIO
+        int "UART TX GPIO Num"
+        default 17
+        help
+            GPIO пін для лінії передачі (TX) UART2.
+
+    config HW_04_1_UART_RX_GPIO
+        int "UART RX GPIO Num"
+        default 16
+        help
+            GPIO пін для лінії прийому (RX) UART2.
+
+    config HW_04_1_LED_GPIO
+        int "LED GPIO Num"
+        default 4
+        help
+            GPIO пін для керування зовнішнім світлодіодом.
+
+    config HW_04_1_BTN_GPIO
+        int "Button GPIO Num"
+        default 5
+        help
+            GPIO пін для зчитання зовнішньої кнопки.
+
+    config HW_04_1_UART_BAUD_RATE
+        int "UART Baud Rate"
+        default 115200
+        help
+            Швидкість передачі даних по UART (має збігатися з налаштуваннями STM32).
 
 endmenu
 

@@ -14,6 +14,7 @@
 #include "traffic_fsm.h"
 #include "cw_servo_pot.h"
 #include "hw03_5_servo.h"
+#include "hw04_1_uart.h"
 
 void app_main(void)
 {
@@ -43,5 +44,7 @@ void app_main(void)
     cw_servo_pot_run();
 #elif CONFIG_HW_03_5_SERVO_CONTROL
     hw03_5_run();
+#elif CONFIG_HW_04_1_UART_BRIDGE
+    hw04_1_run();
 #endif
 }
