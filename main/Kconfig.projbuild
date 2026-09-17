@@ -46,6 +46,12 @@ config HW_03_5_SERVO_CONTROL
 config HW_04_1_UART_BRIDGE
     bool "HW 04.1: Bidirectional UART Bridge to STM32"
 
+config HW_04_4_5_SPI_MASTER
+    bool "HW 04.4-4.5: SPI Master (STM32 BME280 Bridge)"
+    default n
+    help
+        Enables HW 04.4 and 04.5 combined module: ESP32 reads BME280 data via SPI from STM32.
+
 endchoice
 
 endmenu
@@ -301,6 +307,44 @@ menu "HW 04_1: UART Bridge Configuration"
         default 115200
         help
             Швидкість передачі даних по UART (має збігатися з налаштуваннями STM32).
+
+endmenu
+
+endif
+
+if HW_04_4_5_SPI_MASTER
+
+menu "HW 04.4-4.5: SPI Master Configuration"
+
+    config HW_04_4_5_SPI_MOSI_GPIO
+        int "SPI MOSI GPIO Num"
+        default 23
+        help
+            GPIO пін для лінії передачі (Master Out).
+
+    config HW_04_4_5_SPI_MISO_GPIO
+        int "SPI MISO GPIO Num"
+        default 19
+        help
+            GPIO пін для лінії прийому (Master In).
+
+    config HW_04_4_5_SPI_SCLK_GPIO
+        int "SPI SCLK GPIO Num"
+        default 18
+        help
+            GPIO пін для лінії тактування (Clock).
+
+    config HW_04_4_5_SPI_CS_GPIO
+        int "SPI CS GPIO Num"
+        default 5
+        help
+            GPIO пін для лінії вибору пристрою (Chip Select).
+
+    config HW_04_4_5_SPI_FREQ_MHZ
+        int "SPI Clock Frequency (MHz)"
+        default 1
+        help
+            Частота тактування SPI у мегагерцах.
 
 endmenu
 

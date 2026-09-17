@@ -15,6 +15,7 @@
 #include "cw_servo_pot.h"
 #include "hw03_5_servo.h"
 #include "hw04_1_uart.h"
+#include "hw04_4_5_spi.h"
 
 void app_main(void)
 {
@@ -46,5 +47,7 @@ void app_main(void)
     hw03_5_run();
 #elif CONFIG_HW_04_1_UART_BRIDGE
     hw04_1_run();
+#elif CONFIG_HW_04_4_5_SPI_MASTER
+    hw04_4_5_run();
 #endif
 }
