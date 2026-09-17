@@ -17,7 +17,7 @@ void hw04_4_5_run(void)
     esp_err_t ret;
     spi_device_handle_t spi;
 
-    // 1. Ініціалізація шини SPI (VSPI / SPI3_HOST)
+    // Конфігурація шини SPI (VSPI / SPI3_HOST)
     spi_bus_config_t buscfg = {
         .miso_io_num = CONFIG_HW_04_4_5_SPI_MISO_GPIO,
         .mosi_io_num = CONFIG_HW_04_4_5_SPI_MOSI_GPIO,
@@ -36,11 +36,11 @@ void hw04_4_5_run(void)
     };
 
     // Ініціалізація шини з автоматичним вибором DMA
-    ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
+    ret = spi_bus_initialize(SPI2_HOST, &buscfg, SPI_DMA_CH_AUTO);
     ESP_ERROR_CHECK(ret);
 
     // Додавання STM32 як пристрою на шину
-    ret = spi_bus_add_device(SPI3_HOST, &devcfg, &spi);
+    ret = spi_bus_add_device(SPI2_HOST, &devcfg, &spi);
     ESP_ERROR_CHECK(ret);
 
     ESP_LOGI(TAG, "SPI Master initialized. Polling STM32 every 1000 ms...");
